@@ -33,9 +33,6 @@
     <meta name="twitter:image:alt" content="" />
     <meta name="twitter:card" content="summary_large_image" />
 
-
-
-
     <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/slick.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/ion.rangeSlider.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/slick-theme.css') }}" />
@@ -65,7 +62,7 @@
                     </a>
                 </div>
                 <div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
-                    <a href="" class="nav-link text-dark">My Account</a>
+                    <a href="{{ route('account.login') }}" class="nav-link text-dark">My Account</a>
                     <form action="">
                         <div class="input-group">
                             <input type="text" placeholder="Search For Post" class="form-control"
@@ -112,9 +109,9 @@
                     <div class="footer-card">
                         <h3>My Account</h3>
                         <ul>
-                            <li><a href="" title="Sell">Login</a></li>
-                            <li><a href="" title="Advertise">Register</a></li>
-                            <li><a href="#" title="Contact Us">My Orders</a></li>
+                            <li><a href="{{ route('account.login') }}" title="Sell">Login</a></li>
+                            <li><a href="{{ route('account.register') }}" title="Advertise">Register</a></li>
+                            <li><a href="#" title="Contact Us">My Post</a></li>
                         </ul>
                     </div>
                 </div>

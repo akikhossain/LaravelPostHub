@@ -77,7 +77,9 @@ class AuthController extends Controller
     }
     public function profile()
     {
-        return view('Frontend.account.profile');
+        // $users = User::all();
+        $user = Auth::user();
+        return view('Frontend.account.profile', compact('user'));
     }
 
     public function logout()

@@ -4,7 +4,11 @@
             aria-expanded="false"><i class="fas fa-user-alt"></i> My Profile</a>
     </li>
     <li class="nav-item">
-        <a href="my-orders.php" class="nav-link font-weight-bold" role="tab" aria-controls="tab-register"
+        <a href="{{ route('post.create') }}" class="nav-link font-weight-bold" role="tab" aria-controls="tab-login"
+            aria-expanded="false"><i class="fa-solid fa-plus"></i>Create Post</a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('post.list') }}" class="nav-link font-weight-bold" role="tab" aria-controls="tab-register"
             aria-expanded="false"><i class="fas fa-shopping-bag"></i>My posts</a>
     </li>
     <li class="nav-item">

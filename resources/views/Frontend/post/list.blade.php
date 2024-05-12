@@ -13,7 +13,7 @@
                 <h4 class="text-uppercase">My Post List</h4>
                 <div>
                     <a href="{{ route('post.create') }}" class="btn btn-success p-2 text-lg rounded-pill">
-                        <i class="fa-solid fa-plus me-2"></i>Create new Post
+                        Add One
                     </a>
                 </div>
             </div>

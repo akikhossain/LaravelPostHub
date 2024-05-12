@@ -98,35 +98,13 @@
         </div>
     </div>
 </section>
-{{-- <section class="section-3">
-    <div class="container">
-        <div class="section-title">
-            <h2>Categories</h2>
-        </div>
-        <div class="row pb-3">
-            <div class="col-lg-3">
-                <div class="cat-card">
-                    <div class="left">
-                        <img style="height: 150px;" src="" alt="" class="img-fluid">
-                    </div>
-                    <div class="right">
-                        <div class="cat-data">
-                            <h2></h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> --}}
 <div class="container">
     <form class="d-flex w-75 mx-auto ">
-        <input class="form-control me-2 py-3 rounded-pill" type="search" placeholder="Type to search..."
-            aria-label="Search">
+        <input class="form-control me-2 py-3 rounded-pill" value="{{ Request::get('keyword') }}" name="keyword"
+            type="search" placeholder="Type to search..." aria-label="Search">
         <button class="btn btn-outline-success px-3 rounded-pill" type="submit">Search</button>
     </form>
 </div>
-
 
 <section class="section-4 pt-5">
     <div class="container">
@@ -150,14 +128,26 @@
                     </div>
                     <div class="card-body text-center mt-3">
                         <div class="price mt-2">
+                            @if ($post->user)
+                            <span class="h6 text-muted"><strong>Author:</strong> {{ $post->user->name }}</span><br>
+                            @endif
+                            <span class="h6 text-muted"><strong>Date:</strong> {{ $post->created_at->format('M d, Y')
+                                }}</span><br>
+                            <span class="h5"><strong></strong>{{ $post->create_at }}</span><br>
                             <span class="h5"><strong></strong>{{ $post->title }}</span><br>
-                            <span class="h6 text-underline">{{ $post->short_description }}</></span>
+                            <div class="price mt-2">
+                                <span class="h6 text-underline">{{ $post->short_description }}</></span>
+                            </div>
                         </div>
-                        <a href="" class="btn btn-primary mt-3">Read More</a>
+                        <a href="{{ route('home.singlePost', $post->id) }}" class="btn btn-primary mt-3">Read More</a>
                     </div>
                 </div>
             </div>
             @endforeach
+            @else
+            <div class="col-md-12">
+                <div class="alert alert-danger">No Featured Posts found.</div>
+            </div>
             @endif
         </div>
     </div>
@@ -184,16 +174,24 @@
                         </a>
                     </div>
                     <div class="card-body text-center mt-3">
-                        <a class="h6 link" href="product.php">{{ $post->title }}</a>
+                        @if ($post->user)
+                        <span class="h6 text-muted"><strong>Author:</strong> {{ $post->user->name }}</span><br>
+                        @endif
+                        <span class="h6 text-muted"><strong>Date:</strong> {{ $post->created_at->format('M d, Y')
+                            }}</span><br>
+                        <span class="h6 link" href="product.php">{{ $post->title }}</span>
                         <div class="price mt-2">
                             <span class="h6 text-underline">{{ $post->short_description }}</></span>
                         </div>
                         <a href="" class="btn btn-primary mt-3">Read More</a>
                     </div>
-
                 </div>
             </div>
             @endforeach
+            @else
+            <div class="col-md-12">
+                <div class="alert alert-danger">No Latests Posts found.</div>
+            </div>
             @endif
         </div>
     </div>

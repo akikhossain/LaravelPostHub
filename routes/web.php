@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [FrontHomeController::class, 'home'])->name('home');
+Route::get('/post-details/{id}', [FrontHomeController::class, 'singlePost'])->name('home.singlePost');
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('account.login');

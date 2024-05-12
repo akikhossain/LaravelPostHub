@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\TempImage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+
 
 class PostController extends Controller
 {
@@ -20,23 +23,20 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'short_description' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        $imageName = null;
         if ($validator->passes()) {
-            $fileName = null;
             if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                $fileName = date('Ymdhis') . '.' . $file->getClientOriginalExtension();
-
-                $file->storeAs('/uploads', $fileName);
+                $imageName = time() . '.' . $request->image->extension();
+                $request->image->move(public_path('images'), $imageName);
             }
-
             $post = new Post();
             $post->title = $request->title;
             $post->short_description = $request->short_description;
             $post->description = $request->description;
-            $post->image =  $fileName;
+            $post->status = $request->status;
+            $post->image = $imageName ? 'images/' . $imageName : null;
             $post->user_id = auth()->user()->id;
             $post->created_at = Carbon::now();
             $post->save();
@@ -53,6 +53,7 @@ class PostController extends Controller
             ]);
         }
     }
+
 
     public function list(Request $request)
     {
@@ -99,35 +100,38 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'short_description' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->passes()) {
-            $fileName = null;
-            if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                $fileName = date('Ymdhis') . '.' . $file->getClientOriginalExtension();
-
-                $file->storeAs('/uploads', $fileName);
-            }
             $post->title = $request->title;
             $post->short_description = $request->short_description;
             $post->description = $request->description;
-            $post->image =  $fileName;
+            $post->status = $request->status;
             $post->user_id = auth()->user()->id;
             $post->created_at = Carbon::now();
+
+            if ($request->hasFile('image')) {
+                $newImageName = time() . '.' . $request->image->extension();
+                $request->image->move(public_path('images'), $newImageName);
+                $post->image = 'images/' . $newImageName;
+
+                if (!empty($post->image)) {
+                    $oldImagePath = public_path($post->image);
+                    if (File::exists($oldImagePath)) {
+                        File::delete($oldImagePath);
+                    }
+                }
+            }
             $post->save();
 
             session()->flash('success', 'Post updated successfully');
-            return response()->json([
-                'status' => true,
-                'message' => 'Post updated successfully'
-            ]);
+            return redirect()->route('post.list')->with('success', 'Post updated successfully');
+            // return response()->json([
+            //     'status' => true,
+            //     'message' => 'Post updated successfully'
+            // ]);
         } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ]);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
     }
 
@@ -142,6 +146,7 @@ class PostController extends Controller
             ]);
         }
         $post->delete();
+
         session()->flash('success', 'Post deleted successfully');
         return response()->json([
             'status' => true,

@@ -98,7 +98,7 @@
         </div>
     </div>
 </section>
-<section class="section-3">
+{{-- <section class="section-3">
     <div class="container">
         <div class="section-title">
             <h2>Categories</h2>
@@ -118,7 +118,15 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
+<div class="container">
+    <form class="d-flex w-75 mx-auto ">
+        <input class="form-control me-2 py-3 rounded-pill" type="search" placeholder="Type to search..."
+            aria-label="Search">
+        <button class="btn btn-outline-success px-3 rounded-pill" type="submit">Search</button>
+    </form>
+</div>
+
 
 <section class="section-4 pt-5">
     <div class="container">
@@ -126,23 +134,31 @@
             <h2>Featured Post</h2>
         </div>
         <div class="row pb-3">
+            @if ($posts->isNotEmpty())
+            @foreach ($posts as $key => $post)
             <div class="col-md-3">
                 <div class="card product-card">
                     <div class="product-image position-relative">
                         <a href="" class="product-img">
-                            <img class="card-img-top" style="height: 300px;" src="">
-                            <img class="card-img-top" src="">
+                            @if ($post->image)
+                            <img class="avatar p-1" src="{{ asset($post->image) }}" alt="" style="height: 300px;">
+                            @else
+                            <img class="avatar p-1" src="{{ asset('front-assets/images/default-150x150.png') }}" alt=""
+                                style="height: 300px;">
+                            @endif
                         </a>
                     </div>
                     <div class="card-body text-center mt-3">
-                        <a class="h6 link" href="product.php"></a>
                         <div class="price mt-2">
-                            <span class="h5"><strong></strong>Title</span>
-                            <span class="h6 text-underline"><del>Short Description</del></span>
+                            <span class="h5"><strong></strong>{{ $post->title }}</span><br>
+                            <span class="h6 text-underline">{{ $post->short_description }}</></span>
                         </div>
+                        <a href="" class="btn btn-primary mt-3">Read More</a>
                     </div>
                 </div>
             </div>
+            @endforeach
+            @endif
         </div>
     </div>
 </section>
@@ -153,21 +169,32 @@
             <h2>Latest Post</h2>
         </div>
         <div class="row pb-3">
+            @if ($latestPosts->isNotEmpty())
+            @foreach ($latestPosts as $key => $post)
             <div class="col-md-3">
                 <div class="card product-card">
                     <div class="product-image position-relative">
                         <a href="" class="product-img">
-                            <img class="card-img-top" src="" alt="">
+                            @if ($post->image)
+                            <img class="avatar p-1" src="{{ asset($post->image) }}" alt="" style="height: 300px;">
+                            @else
+                            <img class="avatar p-1" src="{{ asset('front-assets/images/default-150x150.png') }}" alt=""
+                                style="height: 300px;">
+                            @endif
                         </a>
                     </div>
                     <div class="card-body text-center mt-3">
-                        <a class="h6 link" href="product.php">tttttttttttttt</a>
+                        <a class="h6 link" href="product.php">{{ $post->title }}</a>
                         <div class="price mt-2">
-                            <span class="h5"><strong>pppppp</strong></span>
+                            <span class="h6 text-underline">{{ $post->short_description }}</></span>
                         </div>
+                        <a href="" class="btn btn-primary mt-3">Read More</a>
                     </div>
+
                 </div>
             </div>
+            @endforeach
+            @endif
         </div>
     </div>
 </section>

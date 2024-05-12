@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\AuthController;
 use App\Http\Controllers\Frontend\FrontHomeController;
 use App\Http\Controllers\Frontend\PostController;
+use App\Http\Controllers\TempImagesController;
 use Illuminate\Support\Facades\Route;
 
 

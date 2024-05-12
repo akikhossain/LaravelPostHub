@@ -37,6 +37,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/ion.rangeSlider.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/slick-theme.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('front-assets/plugins/dropzone/min/dropzone.min.css') }}">
+
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,8 +64,9 @@
                     </a>
                 </div>
                 <div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
-                    <a href="{{ route('account.login') }}" class="nav-link text-dark">My Account</a>
-                    <form action="">
+                    <a href="{{ route('account.login') }}" class="nav-link text-dark"> <i
+                            class="fa-solid fa-circle-user fa-2xl" style="color: #060504;"></i></a>
+                    {{-- <form action="">
                         <div class="input-group">
                             <input type="text" placeholder="Search For Post" class="form-control"
                                 aria-label="Amount (to the nearest dollar)">
@@ -71,7 +74,8 @@
                                 <i class="fa fa-search"></i>
                             </span>
                         </div>
-                    </form>
+                    </form> --}}
+
                 </div>
             </div>
         </div>
@@ -137,7 +141,9 @@
     <script src="{{ asset('front-assets/js/ion.rangeSlider.min.js') }}"></script>
     <script src="{{ asset('front-assets/js/slick.min.js') }}"></script>
     <script src="{{ asset('front-assets/js/custom.js') }}"></script>
-    <script>
+    <script src="{{ asset('front-assets/plugins/dropzone/min/dropzone.min.js') }}"></script>
+
+    <script type="text/javascript">
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -157,6 +163,27 @@
                 navbar.classList.remove("sticky");
             }
         }
+
+        $(document).ready(function() {
+            $('.summernote').summernote({
+                height: 200,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+
+            $('.dropzone').dropzone({
+                url: "/file/post",
+                maxFilesize: 2,
+                addRemoveLinks: true
+            });
+        });
     </script>
     @yield('customJs')
 </body>

@@ -50,7 +50,9 @@
                             <th scope="col">ID</th>
                             <th scope="col">Title</th>
                             <th scope="col">Short Description</th>
+                            <th scope="col">Image</th>
                             <th scope="col">Date</th>
+                            <th scope="col">status</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -61,7 +63,24 @@
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->short_description }}</td>
-                            <td>{{ $post->created_at->setTimeZone('Asia/Dhaka')->format('Y-m-d H:i:s') }}</td>
+                            <td>
+                                @if ($post->image)
+                                <img class="avatar p-1 rounded-circle" src="{{ asset($post->image) }}" alt=""
+                                    style="width: 100px; height: 100px;">
+                                @else
+                                <img class="avatar p-1 rounded-circle"
+                                    src="{{ asset('front-assets/images/default-150x150.png') }}" alt=""
+                                    style="width: 100px; height: 100px;">
+                                @endif
+                            </td>
+                            <td>{{ $post->created_at->format('Y-m-d H:i:s') }}</td>
+                            <td>
+                                @if ($post->status == 1)
+                                <i class="fa-solid fa-circle-check" style="color: #037c21;"></i>
+                                @else
+                                <i class="fa-solid fa-circle-xmark" style="color: #bc0101;"></i>
+                                @endif
+                            </td>
                             <td>
                                 <a class="btn btn-outline-dark btn-rounded rounded-pill" data-mdb-ripple-color="dark"
                                     href="{{ route('post.edit', $post->id) }}"><i
@@ -80,8 +99,6 @@
                         @endif
                     </tbody>
                 </table>
-                <div class="w-25 mx-auto mt-4">
-                </div>
             </div>
         </section>
         <!-- /.content -->

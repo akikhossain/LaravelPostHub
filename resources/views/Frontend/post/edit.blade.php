@@ -1,13 +1,12 @@
 @extends('Frontend.master')
 @section('content')
 <section class="section-11 ">
-    <div class="container  mt-5">
-        <!-- Content Header (Page header) -->
+    <div class="container mt-5">
         <section class="content-header">
             <div class="container-fluid my-2">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h3>Create Your Post</h3>
+                        <h3>Update Your Post</h3>
                     </div>
                 </div>
             </div>
@@ -17,8 +16,10 @@
         <section class="content">
             <!-- Default box -->
             <div class="container-fluid">
-                <form action="#" method="post" id="createPostForm" name="createPostForm">
+                <form action="{{ route('post.update', $post->id) }}" method="POST" id="createPostForm"
+                    name="createPostForm" enctype="multipart/form-data">
                     @csrf
+                    @method('put')
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -61,8 +62,10 @@
                                     <div class="mb-3">
                                         <label for="status">Status</label>
                                         <select name="status" id="status" class="form-control">
-                                            <option value="1">Active</option>
-                                            <option value="0">Inactive</option>
+                                            <option {{ $post->status == 1 ? 'selected' : '' }} value="1">Active
+                                            </option>
+                                            <option {{ $post->status == 0 ? 'selected' : '' }} value="0">Inactive
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -83,48 +86,5 @@
 @endsection
 
 @section('customJs')
-<script>
-    $("#createPostForm").submit(function(event) {
-                    event.preventDefault();
-                    var element = $(this);
-                    $("button[type=submit]").prop('disabled', true);
-                    $.ajax({
-                        url: '{{ route('post.update', $post->id) }}',
-                        type: 'put',
-                        data: element.serializeArray(),
-                        dataType: 'json',
-                        success: function(response) {
 
-                            $("button[type=submit]").prop('disabled', false);
-                            if (response['status'] == true) {
-                                window.location.href = "{{ route('post.list') }}";
-                                $("#title").removeClass('is-invalid').siblings('p').removeClass(
-                                    'invalid-feedback').html("");
-
-                                $("#short_description").removeClass('is-invalid').siblings('p').removeClass(
-                                    'invalid-feedback').html("");
-                            } else {
-                                var errors = response['errors'];
-                                if (errors['title']) {
-                                    $("#title").addClass('is-invalid').siblings('p').addClass('invalid-feedback')
-                                        .html(errors['title']);
-                                } else {
-                                    $("#title").removeClass('is-invalid').siblings('p').removeClass(
-                                        'invalid-feedback').html("");
-                                }
-                                if (errors['short_description']) {
-                                    $("#short_description").addClass('is-invalid').siblings('p').addClass('invalid-feedback')
-                                        .html(errors['short_description']);
-                                } else {
-                                    $("#short_description").removeClass('is-invalid').siblings('p').removeClass(
-                                        'invalid-feedback').html("");
-                                }
-                            }
-                        },
-                        error: function(jqXHR, exception) {
-                            console.log("Something went wrong");
-                        }
-                    });
-                });
-</script>
 @endsection
